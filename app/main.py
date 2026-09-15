@@ -1,7 +1,18 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from pydantic import BaseModel
+from datetime import datetime, timezone
+
+from app.speech_service import transcribe_audio
+
+
+class TranscriptionResponse(BaseModel):
+    filename: str
+    timestamp: datetime
+    transcript: str
 
 
 app = FastAPI()
+
 
 @app.get("/")
 def root():
@@ -9,7 +20,8 @@ def root():
         "message": "Call Transcription API is running"
     }
 
-@app.post("/transcribe")
+
+@app.post("/transcribe", response_model=TranscriptionResponse)
 async def transcribe(file: UploadFile = File(...)):
 
     if not file.filename.lower().endswith(".wav"):
@@ -18,11 +30,12 @@ async def transcribe(file: UploadFile = File(...)):
             detail="Only .wav files are supported"
         )
 
-    audio_data = await file.read()
+    timestamp = datetime.now(timezone.utc)
 
-    return {
-        "filename": file.filename,
-        "content_type": file.content_type,
-        "size_bytes": len(audio_data),
-        "message": "Audio received successfully"
-    }
+    transcript = transcribe_audio(file.file)
+
+    return TranscriptionResponse(
+        filename=file.filename,
+        timestamp=timestamp,
+        transcript=transcript
+    )
