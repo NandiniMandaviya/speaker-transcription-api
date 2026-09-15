@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 from app.speech_service import transcribe_audio
 
+MAX_FILE_SIZE = 50 * 1024 * 1024
 
 class TranscriptionResponse(BaseModel):
     filename: str
@@ -24,11 +25,21 @@ def root():
 @app.post("/transcribe", response_model=TranscriptionResponse)
 async def transcribe(file: UploadFile = File(...)):
 
+    if len(await file.read()) > MAX_FILE_SIZE:
+            raise HTTPException(
+                status_code=413,
+                detail="File size exceeds the 50 MB limit"
+            )
+
     if not file.filename.lower().endswith(".wav"):
         raise HTTPException(
             status_code=400,
             detail="Only .wav files are supported"
         )
+
+    audio_data = await file.read()
+
+    await file.seek(0)
 
     timestamp = datetime.now(timezone.utc)
 
