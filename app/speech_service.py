@@ -11,6 +11,9 @@ from azure.ai.transcription.models import (
 
 load_dotenv()
 
+class TranscriptionServiceError(Exception):
+    pass
+
 endpoint = os.getenv("AZURE_SPEECH_ENDPOINT")
 api_key = os.getenv("AZURE_SPEECH_API_KEY")
 
@@ -31,12 +34,18 @@ def transcribe_audio(audio_file):
         diarization_options=diarization_options
     )
 
-    result = client.transcribe(
-        TranscriptionContent(
-            definition=options,
-            audio=audio_file
-        )
-    )
+    try:
+        result = client.transcribe(
+                TranscriptionContent(
+                    definition=options,
+                    audio=audio_file
+                )
+            )
+
+    except Exception as e:
+        raise TranscriptionServiceError(
+            "Transcription service failed"
+        ) from e
 
     transcript_lines = []
 

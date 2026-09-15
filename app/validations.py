@@ -25,21 +25,23 @@ async def validate_file_extension(file):
 
 
 async def validate_wav_format(file):
-    try:
-        with wave.open(file.file, "rb") as wav_file:
-            channels = wav_file.getnchannels()
-            sample_rate = wav_file.getframerate()
+    await file.seek(0)
 
-    except wave.Error:
+    try:
+        with wave.open(file.file, "rb"):
+            pass
+
+    except (wave.Error, EOFError):
         raise HTTPException(
             status_code=400,
             detail="Invalid WAV file"
         )
 
-    await file.seek(0)
+    finally:
+        await file.seek(0)
 
 
 async def validate_file(file):
-    await validate_file_size(file)
     await validate_file_extension(file)
+    await validate_file_size(file)
     await validate_wav_format(file)
