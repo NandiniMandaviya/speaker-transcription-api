@@ -1,10 +1,11 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, Request
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from datetime import datetime, timezone
 
-from app.speech_service import transcribe_audio
+from app.validations import validate_file
 
-MAX_FILE_SIZE = 50 * 1024 * 1024
+from app.speech_service import transcribe_audio, TranscriptionServiceError
 
 class TranscriptionResponse(BaseModel):
     filename: str
@@ -14,6 +15,14 @@ class TranscriptionResponse(BaseModel):
 
 app = FastAPI()
 
+@app.exception_handler(TranscriptionServiceError)
+async def transcription_service_error_handler(request: Request, exc: TranscriptionServiceError):
+    return JSONResponse(
+        status_code=502,
+        content={
+            "detail": str(exc)
+        }
+    )
 
 @app.get("/")
 def root():
@@ -25,21 +34,7 @@ def root():
 @app.post("/transcribe", response_model=TranscriptionResponse)
 async def transcribe(file: UploadFile = File(...)):
 
-    if len(await file.read()) > MAX_FILE_SIZE:
-            raise HTTPException(
-                status_code=413,
-                detail="File size exceeds the 50 MB limit"
-            )
-
-    if not file.filename.lower().endswith(".wav"):
-        raise HTTPException(
-            status_code=400,
-            detail="Only .wav files are supported"
-        )
-
-    audio_data = await file.read()
-
-    await file.seek(0)
+    await validate_file(file)
 
     timestamp = datetime.now(timezone.utc)
 

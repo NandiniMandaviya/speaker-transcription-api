@@ -1,0 +1,179 @@
+{
+  "info": {
+    "_postman_id": "86d9401b-e34e-4d20-9029-ff7f09d9f037",
+    "name": "Speech Transcription API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56538578",
+    "_collection_link": "https://go.postman.co/collection/56538578-86d9401b-e34e-4d20-9029-ff7f09d9f037?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "http://127.0.0.1:8000/transcribe",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "ee20cc42-8fc2-40a9-a1ed-b2465a404ed0",
+              "src": "/C:/Users/Admin/Desktop/test_audio/test-call.wav"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/transcribe",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "transcribe"
+          ]
+        },
+        "description": "Testing a normal valid audio file"
+      },
+      "response": []
+    },
+    {
+      "name": "http://127.0.0.1:8000/transcribe - largefile",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "ee20cc42-8fc2-40a9-a1ed-b2465a404ed0",
+              "src": "/C:/Users/Admin/Desktop/test_audio/test-greater-than-50mb.wav"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/transcribe",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "transcribe"
+          ]
+        },
+        "description": "Testing with file size larger than 50 mb"
+      },
+      "response": []
+    },
+    {
+      "name": "http://127.0.0.1:8000/transcribe - wrongext",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "ee20cc42-8fc2-40a9-a1ed-b2465a404ed0",
+              "src": "/C:/Users/Admin/Downloads/file_example_MP3_1MG.mp3"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/transcribe",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "transcribe"
+          ]
+        },
+        "description": "Testing file with the wrong extension"
+      },
+      "response": []
+    },
+    {
+      "name": "http://127.0.0.1:8000/transcribe - azureservicefailure",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "166d4763-ae1d-4738-b8b8-b071442f7166",
+              "src": "/C:/Users/Admin/Desktop/test_audio/test-call.wav"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/transcribe",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "transcribe"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://127.0.0.1:8000/transcribe - invalidwavfile",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "166d4763-ae1d-4738-b8b8-b071442f7166",
+              "src": "/C:/Users/Admin/Downloads/file_example_MP3_700KB.wav"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/transcribe",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "transcribe"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

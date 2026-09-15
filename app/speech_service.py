@@ -24,6 +24,7 @@ client = TranscriptionClient(
 
 
 def transcribe_audio(audio_file):
+
     diarization_options = TranscriptionDiarizationOptions(
         enabled=True,
         max_speakers=2
