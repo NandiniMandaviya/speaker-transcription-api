@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 .env
 transcript.txt
+test_audio/
