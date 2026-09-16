@@ -120,6 +120,4 @@ Open the following URL in browser: http://127.0.0.1:8000/docs
 
 Alternatively, send a POST request to: http://127.0.0.1:8000/transcribe
 
-Use Body → form-data:
-Key	Type	Value
-file	File	<your .wav file>
+Use Body → form-data, Key:file, Type:File, Value:<your .wav file>
