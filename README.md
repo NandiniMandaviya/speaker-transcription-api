@@ -68,7 +68,7 @@ Azure AI Speech is used as the transcription backend because the project require
 - Speech-to-text transcription
 - Speaker diarization
 
-The API is configured for Indian English (`en-IN`) and enables speaker diarization with a maximum of two speakers for the current use case.
+The API enables speaker diarization with a maximum of five speakers for the current use case.
 
 The Azure Speech integration is isolated in `speech_service.py`, keeping the API layer separate from the transcription service implementation.
 
