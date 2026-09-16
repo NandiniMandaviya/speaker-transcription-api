@@ -31,7 +31,6 @@ def transcribe_audio(audio_file):
     )
 
     options = TranscriptionOptions(
-        locales=["en-IN"],
         diarization_options=diarization_options
     )
 
