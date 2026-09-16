@@ -40,6 +40,23 @@ async def transcribe(file: UploadFile = File(...)):
 
     transcript = transcribe_audio(file.file)
 
+    # Console output
+    print("\n" + "=" * 70)
+    print(f"File: {file.filename}")
+    print(f"Timestamp: {timestamp}")
+    print("=" * 70)
+    print(transcript)
+    print("=" * 70 + "\n")
+
+    # Save transcript to file
+    with open("transcript.txt", "a", encoding="utf-8") as f:
+        f.write("=" * 70 + "\n")
+        f.write(f"File: {file.filename}\n")
+        f.write(f"Timestamp: {timestamp}\n")
+        f.write("=" * 70 + "\n")
+        f.write(transcript)
+        f.write("\n\n")
+
     return TranscriptionResponse(
         filename=file.filename,
         timestamp=timestamp,

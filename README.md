@@ -83,3 +83,43 @@ The diarization configuration was used because the project requires speaker iden
 The dataset contains call-center conversations with speaker-labelled dialogue, making it useful for testing the diarization functionality of the API.
 
 Test audio files are not included in the Git repository.
+
+## Testing
+
+## Testing Specifications
+
+The API was tested using Swagger UI and Postman with the following test cases.
+
+- Valid `.wav` file → `200 OK`
+- Invalid file type → `400 Bad Request`
+- Invalid/corrupt WAV file → `400 Bad Request`
+- File over 50 MB → `413 Request Entity Too Large`
+- Invalid Azure credentials → `502 Bad Gateway`
+- Speaker diarization → Speakers identified correctly
+
+
+## How to Test the API
+
+After cloning the repository, creating the virtual environment and installing requirements, follow the below steps to test it:
+
+### Start the API
+uvicorn app.main:app --reload
+
+The API will start at- http://127.0.0.1:8000
+Open the following URL in browser: http://127.0.0.1:8000/docs
+
+#### From Swagger UI:
+
+1. Open POST /transcribe
+2. Click Try it out
+3. Upload a .wav file
+4. Click Execute
+5. View the diarized transcript in the response
+
+#### From Postman:
+
+Alternatively, send a POST request to: http://127.0.0.1:8000/transcribe
+
+Use Body → form-data:
+Key	Type	Value
+file	File	<your .wav file>
