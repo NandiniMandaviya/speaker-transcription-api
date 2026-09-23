@@ -43,8 +43,9 @@ def transcribe_audio(audio_file):
             )
 
     except Exception as e:
+        print(f"Azure Speech error: {type(e).__name__}: {e}")
         raise TranscriptionServiceError(
-            "Transcription service failed"
+            f"Transcription service failed: {e}"
         ) from e
 
     transcript_lines = []
