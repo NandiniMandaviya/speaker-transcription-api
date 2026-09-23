@@ -23,7 +23,7 @@ client = TranscriptionClient(
 )
 
 
-def transcribe_audio(audio_file):
+def transcribe_audio(audio_data):
 
     diarization_options = TranscriptionDiarizationOptions(
         enabled=True,
@@ -38,7 +38,7 @@ def transcribe_audio(audio_file):
         result = client.transcribe(
                 TranscriptionContent(
                     definition=options,
-                    audio=audio_file
+                    audio=audio_data
                 )
             )
 
