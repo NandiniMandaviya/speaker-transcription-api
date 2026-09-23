@@ -40,6 +40,9 @@ async def transcribe(file: UploadFile = File(...)):
 
     await file.seek(0)
     audio_data = await file.read()
+
+    print(f"Received file: {file.filename}")
+    print(f"Audio bytes: {len(audio_data)}")
     
     transcript = transcribe_audio(audio_data)
 
