@@ -38,7 +38,10 @@ async def transcribe(file: UploadFile = File(...)):
 
     timestamp = datetime.now(timezone.utc)
 
-    transcript = transcribe_audio(file.file)
+    await file.seek(0)
+    audio_data = await file.read()
+    
+    transcript = transcribe_audio(audio_data)
 
     # Console output
     print("\n" + "=" * 70)
